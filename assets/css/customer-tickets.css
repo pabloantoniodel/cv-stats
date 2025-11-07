@@ -1,0 +1,344 @@
+/**
+ * Estilos para Mis Tickets (WooCommerce My Account)
+ */
+
+.cv-customer-tickets-wrapper {
+    padding: 0;
+}
+
+.cv-customer-tickets-header {
+    margin-bottom: 30px;
+}
+
+.cv-customer-tickets-header h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 10px 0;
+}
+
+.cv-customer-tickets-header .cv-description {
+    color: #666;
+    font-size: 15px;
+    margin: 0;
+}
+
+/* Estadísticas */
+.cv-customer-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.cv-stat-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border-left: 4px solid #ddd;
+}
+
+.cv-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.cv-stat-card.cv-stat-total {
+    border-left-color: #667eea;
+}
+
+.cv-stat-card.cv-stat-pending {
+    border-left-color: #f59e0b;
+}
+
+.cv-stat-card.cv-stat-validated {
+    border-left-color: #10b981;
+}
+
+.cv-stat-card.cv-stat-amount {
+    border-left-color: #8b5cf6;
+}
+
+.cv-stat-icon {
+    font-size: 40px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.cv-stat-content {
+    flex: 1;
+}
+
+.cv-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    line-height: 1.2;
+    margin-bottom: 5px;
+}
+
+.cv-stat-label {
+    font-size: 13px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Lista de tickets */
+.cv-customer-tickets-list {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.cv-tickets-loading {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.cv-spinner {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 20px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.cv-tickets-loading p {
+    color: #666;
+    font-size: 15px;
+}
+
+.cv-tickets-empty {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.cv-empty-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+    opacity: 0.3;
+}
+
+.cv-tickets-empty h3 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.cv-tickets-empty p {
+    color: #666;
+    font-size: 15px;
+}
+
+.cv-tickets-container {
+    display: grid;
+    gap: 15px;
+}
+
+/* Item de ticket */
+.cv-ticket-item {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    gap: 20px;
+    padding: 20px;
+    background: #f9fafb;
+    border-radius: 10px;
+    border: 2px solid #e5e7eb;
+    transition: all 0.3s ease;
+    align-items: center;
+}
+
+.cv-ticket-item:hover {
+    border-color: #667eea;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+    transform: translateX(5px);
+}
+
+.cv-ticket-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    border: 2px solid #e5e7eb;
+}
+
+.cv-ticket-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cv-ticket-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cv-ticket-vendor,
+.cv-ticket-date,
+.cv-ticket-amount {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.cv-ticket-vendor {
+    font-size: 16px;
+}
+
+.cv-ticket-vendor strong {
+    color: #333;
+}
+
+.cv-ticket-date {
+    color: #666;
+}
+
+.cv-ticket-amount {
+    font-size: 18px;
+}
+
+.cv-ticket-amount strong {
+    color: #667eea;
+    font-size: 20px;
+}
+
+.cv-ticket-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cv-status-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.cv-status-badge.cv-status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.cv-status-badge.cv-status-validated {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.cv-status-badge.cv-status-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Paginación */
+.cv-tickets-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #e5e7eb;
+}
+
+.cv-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cv-btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.cv-btn-secondary:hover:not(:disabled) {
+    background: #e5e7eb;
+}
+
+.cv-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cv-page-info {
+    font-size: 15px;
+    color: #666;
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cv-customer-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .cv-ticket-item {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .cv-ticket-photo {
+        width: 100%;
+        height: 200px;
+        margin: 0 auto;
+    }
+    
+    .cv-ticket-status {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .cv-customer-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .cv-customer-tickets-header h2 {
+        font-size: 22px;
+    }
+    
+    .cv-stat-value {
+        font-size: 24px;
+    }
+    
+    .cv-tickets-pagination {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .cv-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+

@@ -1,0 +1,11 @@
+# Logs de recalculación de comisiones
+*.json
+*.log
+*.txt
+
+# Permitir este archivo
+!.gitignore
+
+
+
+

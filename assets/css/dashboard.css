@@ -1,0 +1,1155 @@
+/**
+ * Dashboard de Comisiones CV - Estilos
+ * 
+ * @package CV_Commissions
+ * @since 1.0.3
+ */
+
+/* ========================================
+   TARJETAS DE RESUMEN
+   ======================================== */
+
+.cv-dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+@media (min-width: 1200px) {
+    .cv-dashboard-cards {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    .cv-dashboard-cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.cv-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+}
+
+.cv-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+.cv-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.cv-card-wallet .cv-card-icon {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+}
+
+.cv-card-approved .cv-card-icon {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: #fff;
+}
+
+.cv-card-pending .cv-card-icon {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    color: #fff;
+}
+
+.cv-card-ledger .cv-card-icon {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: #fff;
+}
+
+.cv-card-uap .cv-card-icon {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: #fff;
+}
+
+.cv-card-content {
+    flex: 1;
+}
+
+.cv-card-content h3 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #666;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.cv-card-amount {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.cv-card-label {
+    font-size: 12px;
+    color: #999;
+    margin: 0;
+}
+
+/* ========================================
+   TARJETAS DE PERÍODO (mismo estilo que principales)
+   ======================================== */
+
+.cv-card-period-current .cv-card-icon {
+    background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+    color: #fff;
+}
+
+.cv-card-period-last .cv-card-icon {
+    background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+    color: #fff;
+}
+
+.cv-card-period-year .cv-card-icon {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    color: #fff;
+}
+
+/* ========================================
+   INFO BOX
+   ======================================== */
+
+.cv-info-box {
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border-left: 4px solid #2196f3;
+    border-radius: 8px;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
+}
+
+.cv-info-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+.cv-info-content {
+    flex: 1;
+    font-size: 14px;
+    color: #1565c0;
+}
+
+.cv-info-content strong {
+    color: #0d47a1;
+    font-size: 15px;
+}
+
+.cv-info-content ul {
+    list-style-type: disc;
+}
+
+.cv-info-content li {
+    margin: 8px 0;
+    color: #1976d2;
+}
+
+.cv-info-content li strong {
+    color: #0d47a1;
+    font-size: 14px;
+}
+
+/* ========================================
+   PESTAÑAS
+   ======================================== */
+
+.cv-tabs {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.cv-tabs-nav {
+    display: flex;
+    background: #f8f9fa;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.cv-tab-btn {
+    flex: 1;
+    padding: 15px 20px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.cv-tab-btn:hover {
+    background: #fff;
+    color: #333;
+}
+
+.cv-tab-btn.active {
+    background: #fff;
+    color: #667eea;
+}
+
+.cv-tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #667eea;
+}
+
+.cv-tab-content {
+    display: none;
+    padding: 20px;
+}
+
+.cv-tab-content.active {
+    display: block;
+}
+
+/* ========================================
+   TABLAS
+   ======================================== */
+
+.cv-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.cv-table thead {
+    background: #f8f9fa;
+}
+
+.cv-table thead th {
+    padding: 12px 8px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.cv-table tbody td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+}
+
+.cv-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.cv-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.cv-table a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.cv-table a:hover {
+    text-decoration: underline;
+}
+
+/* ========================================
+   PAGINACIÓN
+   ======================================== */
+
+.cv-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.cv-pagination-btn {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cv-pagination-btn:hover:not([disabled]) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.cv-pagination-btn:disabled {
+    background: #e0e0e0;
+    color: #999;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.cv-pagination-info {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+.cv-pagination-info span {
+    font-weight: 700;
+    color: #333;
+}
+
+/* Responsive paginación */
+@media (max-width: 600px) {
+    .cv-pagination {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .cv-pagination-btn {
+        width: 100%;
+    }
+}
+
+/* ========================================
+   BADGES Y ESTADOS
+   ======================================== */
+
+.cv-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.cv-status-approved,
+.cv-status-completed,
+.cv-status-paid {
+    background: #d4edda;
+    color: #155724;
+}
+
+.cv-status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.cv-status-refused,
+.cv-status-unpaid {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.cv-status-unknown {
+    background: #e2e3e5;
+    color: #383d41;
+}
+
+.cv-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.cv-badge-uap {
+    background: #667eea;
+    color: #fff;
+}
+
+.cv-badge-wcfm_ledger,
+.cv-badge-wcfm {
+    background: #43e97b;
+    color: #fff;
+}
+
+.cv-badge-credit {
+    background: #43e97b;
+    color: #fff;
+}
+
+.cv-badge-debit {
+    background: #fa709a;
+    color: #fff;
+}
+
+/* ========================================
+   MONTOS
+   ======================================== */
+
+.cv-positive {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.cv-negative {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+/* ========================================
+   NO DATA
+   ======================================== */
+
+.cv-no-data {
+    text-align: center;
+    padding: 40px 20px !important;
+    color: #999;
+    font-style: italic;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .cv-dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .cv-tabs-nav {
+        flex-direction: column;
+    }
+    
+    .cv-tab-btn {
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .cv-tab-btn.active::after {
+        bottom: 0;
+        right: 0;
+        width: 2px;
+        height: 100%;
+        left: auto;
+    }
+    
+    .cv-table {
+        font-size: 11px;
+    }
+    
+    .cv-table thead th,
+    .cv-table tbody td {
+        padding: 8px 4px;
+    }
+}
+
+/* ========================================
+   WCFM INTEGRATION
+   ======================================== */
+
+#wcfm_cv_commissions_dashboard .wcfm-page-headig {
+    margin-bottom: 20px;
+}
+
+#wcfm_cv_commissions_dashboard .wcfm-container {
+    padding: 0;
+}
+
+#wcfm_cv_commissions_dashboard .wcfm-clearfix {
+    clear: both;
+}
+
+/* Ajustes para tema WCFM */
+.wcfm-container .cv-dashboard-cards {
+    margin-top: 20px;
+}
+
+/* ========================================
+   WIDGET DEL DASHBOARD
+   ======================================== */
+
+.cv-dashboard-widget {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.cv-dashboard-widget .wcfm_dashboard_stats_head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.cv-dashboard-widget .wcfm_dashboard_stats_title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.cv-dashboard-widget .cv-view-all {
+    color: #667eea;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.cv-dashboard-widget .cv-view-all:hover {
+    color: #5568d3;
+}
+
+.cv-widget-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.cv-widget-stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.cv-widget-stat:hover {
+    background: #f0f2f5;
+    transform: translateY(-2px);
+}
+
+.cv-widget-stat-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.cv-widget-stat-icon.cv-wallet {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.cv-widget-stat-icon.cv-approved {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.cv-widget-stat-icon.cv-pending {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.cv-widget-stat-icon.cv-ledger {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.cv-widget-stat-icon.cv-uap {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.cv-widget-stat-content {
+    flex: 1;
+}
+
+.cv-widget-stat-label {
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.cv-widget-stat-value {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.cv-widget-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.cv-widget-info {
+    font-size: 13px;
+    color: #666;
+}
+
+.cv-widget-info .wcfmfa {
+    margin-right: 5px;
+    color: #667eea;
+}
+
+.cv-widget-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: #fff !important;
+    border: none !important;
+    padding: 10px 20px !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+}
+
+.cv-widget-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4) !important;
+}
+
+/* ========================================
+   SHORTCODE
+   ======================================== */
+
+.cv-commissions-shortcode {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin: 20px 0;
+}
+
+.cv-commissions-shortcode h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.cv-shortcode-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.cv-shortcode-stat {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.cv-shortcode-stat:hover {
+    background: #f0f2f5;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.cv-shortcode-stat-icon {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.cv-shortcode-stat-label {
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.cv-shortcode-stat-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.cv-shortcode-footer {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.cv-shortcode-footer .button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.cv-shortcode-footer .button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    color: #fff;
+}
+
+/* ========================================
+   RESPONSIVE - WIDGET Y SHORTCODE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .cv-widget-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .cv-widget-footer {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .cv-shortcode-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .cv-widget-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .cv-dashboard-widget .wcfm_dashboard_stats_head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+/* ========================================
+   WOOCOMMERCE MY ACCOUNT WIDGET
+   ======================================== */
+
+.cv-woo-dashboard-widget {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.cv-woo-dashboard-widget h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: #333;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 10px;
+}
+
+.cv-woo-widget-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.cv-woo-stat {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.cv-woo-stat:hover {
+    background: #fff;
+    border-color: #667eea;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.cv-woo-stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.cv-woo-stat-icon span {
+    filter: brightness(1.2);
+}
+
+.cv-woo-stat-content {
+    flex: 1;
+}
+
+.cv-woo-stat-label {
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+}
+
+.cv-woo-stat-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.cv-woo-widget-footer {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.cv-woo-widget-info {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.cv-woo-widget-footer .button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.cv-woo-widget-footer .button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    color: #fff;
+}
+
+/* Responsive para WooCommerce Widget */
+@media (max-width: 768px) {
+    .cv-woo-widget-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .cv-woo-widget-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .cv-woo-dashboard-widget {
+        padding: 20px 15px;
+    }
+}
+
+/* ========================================
+   MODAL DE PEDIDO
+   ======================================== */
+
+.cv-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cv-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+}
+
+.cv-modal-content {
+    position: relative;
+    background: #fff;
+    border-radius: 12px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: cv-modal-slide-in 0.3s ease-out;
+}
+
+@keyframes cv-modal-slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.cv-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+}
+
+.cv-modal-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.cv-modal-close {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 32px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    line-height: 1;
+}
+
+.cv-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.cv-modal-body {
+    padding: 25px;
+    max-height: calc(90vh - 80px);
+    overflow-y: auto;
+}
+
+.cv-modal-loading {
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 16px;
+    color: #666;
+}
+
+.cv-modal-loading .wcfmfa {
+    font-size: 32px;
+    color: #667eea;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.cv-error {
+    color: #e74c3c;
+    text-align: center;
+    padding: 20px;
+    font-weight: 600;
+}
+
+/* Resumen del pedido */
+.cv-order-summary h4 {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 8px;
+}
+
+.cv-order-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.cv-order-info-item {
+    font-size: 14px;
+    color: #666;
+}
+
+.cv-order-info-item strong {
+    color: #333;
+}
+
+.cv-order-status {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: #43e97b;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Tabla del modal */
+.cv-modal-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+.cv-modal-table thead {
+    background: #f8f9fa;
+}
+
+.cv-modal-table th {
+    padding: 12px 10px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.cv-modal-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.cv-modal-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+/* Totales del pedido */
+.cv-order-totals {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.cv-order-total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.cv-order-total-final {
+    border-top: 2px solid #667eea;
+    margin-top: 10px;
+    padding-top: 12px;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Información de facturación */
+.cv-order-billing {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.cv-order-billing p {
+    margin: 8px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.cv-order-billing strong {
+    color: #333;
+}
+
+/* Estilos para la columna de porcentaje */
+.cv-percentage {
+    display: inline-block;
+    padding: 4px 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* Link de ver pedido */
+.cv-view-order {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.cv-view-order:hover {
+    color: #5568d3;
+    text-decoration: underline;
+}
+
+/* Responsive del modal */
+@media (max-width: 768px) {
+    .cv-modal-content {
+        width: 95%;
+        max-height: 95vh;
+    }
+    
+    .cv-order-info {
+        grid-template-columns: 1fr;
+    }
+    
+    .cv-modal-table {
+        font-size: 11px;
+    }
+    
+    .cv-modal-table th,
+    .cv-modal-table td {
+        padding: 8px 5px;
+    }
+    
+    .cv-modal-body {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cv-modal-header {
+        padding: 15px;
+    }
+    
+    .cv-modal-header h3 {
+        font-size: 16px;
+    }
+}
+
+

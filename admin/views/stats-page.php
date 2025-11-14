@@ -34,6 +34,8 @@ $period_label = $is_single_day ? date('d/m/Y', strtotime($date_from)) : date('d/
 // Obtener estadísticas con el rango de fechas
 $logins_today = CV_Stats_Login_Tracker::get_logins_by_date_range($period_start, $period_end);
 $count_today = count($logins_today);
+$active_sessions = CV_Stats_Login_Tracker::get_sessions_since($period_start);
+$count_active_sessions = count($active_sessions);
 
 // Agrupar logins por IP
 $logins_by_ip = array();
@@ -305,6 +307,10 @@ $contact_queries = $wpdb->get_results($wpdb->prepare("
                 </div>
                 <div class="cv-stats-big-label">Promedio Logins/IP</div>
             </div>
+            <div class="cv-stats-summary-item" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white;">
+                <div class="cv-stats-big-number"><?php echo $count_active_sessions; ?></div>
+                <div class="cv-stats-big-label">Usuarios activos hoy</div>
+            </div>
         </div>
         
         <?php if (count($logins_by_ip) > 0): ?>
@@ -428,6 +434,89 @@ $contact_queries = $wpdb->get_results($wpdb->prepare("
         <?php else: ?>
             <div class="cv-stats-empty-state">
                 <p>📭 No hay usuarios conectados hoy.</p>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($count_active_sessions > 0): ?>
+            <div class="cv-stats-card" style="margin-top: 30px;">
+                <h3>🟢 Usuarios activos durante el día</h3>
+                <p style="margin: -10px 0 15px 0; color: #6b7280;">
+                    Lista basada en la última actividad registrada dentro del período seleccionado (panel y frontend).
+                </p>
+                <div class="cv-stats-table-container">
+                    <table class="widefat striped">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Rol</th>
+                                <th>Última actividad</th>
+                                <th>IP</th>
+                                <th>Página actual</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($active_sessions as $session): ?>
+                                <tr>
+                                    <td>
+                                        <strong>
+                                            <a href="<?php echo admin_url('user-edit.php?user_id=' . $session['user_id']); ?>">
+                                                <?php echo esc_html($session['display_name']); ?>
+                                            </a>
+                                        </strong>
+                                        <br>
+                                        <small>@<?php echo esc_html($session['username']); ?></small>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $role_names = array(
+                                            'administrator' => '👑 Administrador',
+                                            'wcfm_vendor'   => '🏪 Vendedor',
+                                            'customer'      => '🛍️ Cliente',
+                                            'shop_manager'  => '⚙️ Gestor',
+                                        );
+                                        $roles_to_show = array();
+                                        foreach ($session['roles'] as $role) {
+                                            $roles_to_show[] = isset($role_names[$role]) ? $role_names[$role] : $role;
+                                        }
+                                        echo implode(', ', $roles_to_show);
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <span class="cv-stats-time">
+                                            <?php echo esc_html(date('d/m/Y H:i:s', strtotime($session['last_seen']))); ?>
+                                        </span>
+                                        <br>
+                                        <small><?php echo human_time_diff(strtotime($session['last_seen']), current_time('timestamp')); ?> atrás</small>
+                                    </td>
+                                    <td>
+                                        <code style="font-size: 11px;"><?php echo esc_html($session['ip_address']); ?></code>
+                                    </td>
+                                    <td>
+                                        <?php if (!empty($session['current_url'])): ?>
+                                            <?php
+                                                $current_url_text = $session['current_url'];
+                                                if (function_exists('mb_strimwidth')) {
+                                                    $current_url_text = mb_strimwidth($current_url_text, 0, 60, '…', 'UTF-8');
+                                                } elseif (strlen($current_url_text) > 60) {
+                                                    $current_url_text = substr($current_url_text, 0, 57) . '...';
+                                                }
+                                            ?>
+                                            <a href="<?php echo esc_url($session['current_url']); ?>" target="_blank">
+                                                <?php echo esc_html($current_url_text); ?>
+                                            </a>
+                                        <?php else: ?>
+                                            <span style="color: #94a3b8;">—</span>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="cv-stats-empty-state" style="margin-top: 30px;">
+                <p>🟡 No se registraron usuarios activos en este período.</p>
             </div>
         <?php endif; ?>
     </div>
@@ -1008,8 +1097,8 @@ $contact_queries = $wpdb->get_results($wpdb->prepare("
         <?php endif; ?>
     </div>
     
-    <!-- Referencias desde Buscadores - DESACTIVADO -->
-    <?php // include(CV_STATS_PLUGIN_DIR . 'views/search-referrals-card.php'); ?>
+    <!-- Referencias desde Buscadores -->
+    <?php include CV_STATS_PLUGIN_DIR . 'views/search-referrals-card.php'; ?>
     
 </div>
 

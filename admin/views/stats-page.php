@@ -155,6 +155,10 @@ $contact_queries = $wpdb->get_results($wpdb->prepare("
     WHERE created_at >= %s AND created_at <= %s
     ORDER BY created_at DESC
 ", $period_start, $period_end), ARRAY_A);
+
+$product_search_summary = CV_Product_Search_Tracker::get_summary($period_start, $period_end);
+$product_search_top_terms = CV_Product_Search_Tracker::get_top_terms($period_start, $period_end, 8);
+$product_search_recent = CV_Product_Search_Tracker::get_recent_searches($period_start, $period_end, 8);
 ?>
 
 <div class="wrap cv-stats-page">
@@ -216,14 +220,16 @@ $contact_queries = $wpdb->get_results($wpdb->prepare("
                     </thead>
                     <tbody>
                         <?php foreach ($cards_created_today as $card): 
-                            // Obtener el sponsor desde user_registration_referido
-                            $sponsor_id_or_login = get_user_meta($card['post_author'], 'user_registration_referido', true);
+                            // Obtener el sponsor desde múltiples fuentes
+                            $sponsor_user = false;
                             $sponsor_name = '—';
                             $sponsor_link = '';
                             
+                            // 1. Intentar obtener desde user_registration_referido
+                            $sponsor_id_or_login = get_user_meta($card['post_author'], 'user_registration_referido', true);
+                            
                             if (!empty($sponsor_id_or_login)) {
                                 // Intentar obtener usuario sponsor
-                                $sponsor_user = false;
                                 if (is_numeric($sponsor_id_or_login)) {
                                     $sponsor_user = get_user_by('id', intval($sponsor_id_or_login));
                                 } elseif (strpos($sponsor_id_or_login, '@') !== false) {
@@ -231,15 +237,38 @@ $contact_queries = $wpdb->get_results($wpdb->prepare("
                                 } else {
                                     $sponsor_user = get_user_by('login', $sponsor_id_or_login);
                                 }
-                                
-                                if ($sponsor_user) {
-                                    $sponsor_store_name = get_user_meta($sponsor_user->ID, 'store_name', true);
-                                    if (empty($sponsor_store_name)) {
-                                        $sponsor_store_name = $sponsor_user->display_name;
+                            }
+                            
+                            // 2. Si no hay sponsor en user_registration_referido, buscar en UAP MLM
+                            if (!$sponsor_user) {
+                                global $indeed_db;
+                                if (class_exists('Indeed_Db') && $indeed_db) {
+                                    $affiliate_id = $indeed_db->get_affiliate_id_by_wpuid($card['post_author']);
+                                    if ($affiliate_id) {
+                                        $parent_affiliate_id = $indeed_db->mlm_get_parent($affiliate_id);
+                                        if ($parent_affiliate_id && $parent_affiliate_id > 0) {
+                                            // Obtener user_id del sponsor desde affiliate_id
+                                            global $wpdb;
+                                            $sponsor_user_id = $wpdb->get_var($wpdb->prepare(
+                                                "SELECT uid FROM {$wpdb->prefix}uap_affiliates WHERE id = %d",
+                                                $parent_affiliate_id
+                                            ));
+                                            if ($sponsor_user_id) {
+                                                $sponsor_user = get_user_by('ID', $sponsor_user_id);
+                                            }
+                                        }
                                     }
-                                    $sponsor_name = $sponsor_store_name;
-                                    $sponsor_link = admin_url('user-edit.php?user_id=' . $sponsor_user->ID);
                                 }
+                            }
+                            
+                            // 3. Obtener nombre y link del sponsor
+                            if ($sponsor_user) {
+                                $sponsor_store_name = get_user_meta($sponsor_user->ID, 'store_name', true);
+                                if (empty($sponsor_store_name)) {
+                                    $sponsor_store_name = $sponsor_user->display_name ?: $sponsor_user->user_login;
+                                }
+                                $sponsor_name = $sponsor_store_name;
+                                $sponsor_link = admin_url('user-edit.php?user_id=' . $sponsor_user->ID);
                             }
                             
                             // URL de la tarjeta
@@ -278,6 +307,89 @@ $contact_queries = $wpdb->get_results($wpdb->prepare("
         <?php else: ?>
             <div class="cv-stats-empty-state">
                 <p>📭 No se crearon tarjetas hoy.</p>
+            </div>
+        <?php endif; ?>
+    </div>
+    
+    <!-- Búsquedas en el buscador de productos -->
+    <div class="cv-stats-card">
+        <h2>🔎 Búsquedas internas de productos</h2>
+        <p style="margin: -10px 0 20px 0; color: #666; font-size: 14px;"><?php echo esc_html($period_label); ?></p>
+
+        <div class="cv-stats-summary-grid">
+            <div class="cv-stats-summary-item">
+                <div class="cv-stats-big-number"><?php echo number_format_i18n($product_search_summary['total']); ?></div>
+                <div class="cv-stats-big-label">Total de búsquedas</div>
+            </div>
+            <div class="cv-stats-summary-item">
+                <div class="cv-stats-big-number"><?php echo number_format_i18n($product_search_summary['unique_terms']); ?></div>
+                <div class="cv-stats-big-label">Términos únicos</div>
+            </div>
+            <div class="cv-stats-summary-item">
+                <div class="cv-stats-big-number"><?php echo number_format_i18n($product_search_summary['avg_results']); ?></div>
+                <div class="cv-stats-big-label">Resultados promedio</div>
+            </div>
+        </div>
+
+        <?php if (!empty($product_search_top_terms)): ?>
+            <div class="cv-stats-card" style="margin-top: 20px;">
+                <h3>📝 Términos más buscados</h3>
+                <div class="cv-stats-table-container">
+                    <table class="widefat striped">
+                        <thead>
+                            <tr>
+                                <th>Término</th>
+                                <th>Veces buscado</th>
+                                <th>Resultados promedio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($product_search_top_terms as $term): ?>
+                            <tr>
+                                <td><strong><?php echo esc_html($term->search_term); ?></strong></td>
+                                <td><?php echo number_format_i18n($term->total); ?></td>
+                                <td><?php echo number_format_i18n(round($term->avg_results, 1)); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($product_search_recent)): ?>
+            <div class="cv-stats-card" style="margin-top: 20px;">
+                <h3>🕒 Últimas búsquedas registradas</h3>
+                <div class="cv-stats-table-container">
+                    <table class="widefat striped">
+                        <thead>
+                            <tr>
+                                <th>Fecha/Hora</th>
+                                <th>Término</th>
+                                <th>Resultados</th>
+                                <th>Fuente</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($product_search_recent as $recent): ?>
+                            <tr>
+                                <td>
+                                    <span class="cv-stats-time"><?php echo esc_html(date('d/m/Y H:i:s', strtotime($recent->created_at))); ?></span>
+                                </td>
+                                <td><strong><?php echo esc_html($recent->search_term); ?></strong></td>
+                                <td><?php echo number_format_i18n($recent->results_count); ?></td>
+                                <td>
+                                    <?php echo $recent->source === 'aws' ? '⚡ AWS' : '🛒 Catálogo'; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="cv-stats-empty-state">
+                <p>🔍 No hay búsquedas registradas en este período.</p>
             </div>
         <?php endif; ?>
     </div>

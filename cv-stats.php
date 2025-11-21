@@ -73,8 +73,11 @@ class CV_Stats {
         // Rastreador de consultas de contacto
         require_once CV_STATS_PLUGIN_DIR . 'includes/class-cv-stats-contact-tracker.php';
         
-        // Rastreador de referencias desde buscadores - DESACTIVADO (no interferir con WP Statistics)
-        // require_once CV_STATS_PLUGIN_DIR . 'includes/class-cv-search-referral-tracker.php';
+        // Rastreador de referencias desde buscadores
+        require_once CV_STATS_PLUGIN_DIR . 'includes/class-cv-search-referral-tracker.php';
+
+        // Rastreador de búsquedas internas de productos
+        require_once CV_STATS_PLUGIN_DIR . 'includes/class-cv-product-search-tracker.php';
         
         // Reporte diario por WhatsApp
         require_once CV_STATS_PLUGIN_DIR . 'includes/class-cv-stats-daily-report.php';
@@ -89,6 +92,9 @@ class CV_Stats {
         
         // Inicializar rastreador de tarjetas
         new CV_Stats_Card_Tracker();
+
+        // Inicializar rastreador de búsquedas internas
+        new CV_Product_Search_Tracker();
         
         // Inicializar widget de dashboard
         new CV_Stats_Dashboard_Widget();
@@ -205,6 +211,37 @@ class CV_Stats {
             KEY send_time (send_time)
         ) $charset_collate;";
         dbDelta($sql_whatsapp);
+
+        // Tabla para sesiones activas de usuarios
+        $table_sessions = $wpdb->prefix . 'cv_user_sessions';
+        $sql_sessions = "CREATE TABLE IF NOT EXISTS $table_sessions (
+            user_id bigint(20) NOT NULL,
+            last_seen datetime NOT NULL,
+            ip_address varchar(100) DEFAULT '',
+            user_agent text DEFAULT '',
+            current_url varchar(500) DEFAULT '',
+            PRIMARY KEY (user_id),
+            KEY last_seen (last_seen)
+        ) $charset_collate;";
+        dbDelta($sql_sessions);
+
+        // Tabla para búsquedas internas de productos
+        $table_product_searches = $wpdb->prefix . 'cv_product_searches';
+        $sql_product_searches = "CREATE TABLE IF NOT EXISTS $table_product_searches (
+            id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+            search_term varchar(255) NOT NULL,
+            source varchar(50) NOT NULL DEFAULT 'frontend',
+            results_count int(11) NOT NULL DEFAULT 0,
+            user_id bigint(20) unsigned DEFAULT 0,
+            ip_address varchar(100) DEFAULT '',
+            user_agent text DEFAULT '',
+            page_url varchar(500) DEFAULT '',
+            created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id),
+            KEY created_at (created_at),
+            KEY search_term (search_term)
+        ) $charset_collate;";
+        dbDelta($sql_product_searches);
         
         // Tabla para actividades de productos
         $table_product_activities = $wpdb->prefix . 'cv_product_activities';
